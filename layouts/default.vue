@@ -42,12 +42,6 @@
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn
@@ -69,14 +63,24 @@
       fixed
     >
       <v-list>
-        <v-list-item @click.native="right = !right">
+        <v-list-item v-if="!isLogon" @click="login">
           <v-list-item-action>
             <v-icon light>
               mdi-repeat
             </v-icon>
           </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
+          <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
+
+        <v-list-item v-if="isLogon" @click="logout">
+          <v-list-item-action>
+            <v-icon light>
+              mdi-repeat
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>{{ email }}</v-list-item-title>
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
     <v-footer
@@ -89,8 +93,16 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'DefaultLayout',
+  computed: {
+    ...mapState([
+      'name',
+      'email',
+      'isLogon'
+    ])
+  },
   data () {
     return {
       clipped: false,
@@ -104,14 +116,26 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Catgory',
+          to: '/category'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Vuetify'
+    }
+  },
+  methods: {
+    logout() {
+      sessionStorage.clear();
+      this.$store.commit('setLogout')
+    },
+    login() {
+      // dùng axios xử lý login tại đây ở đay mình fake login luôn
+      const email = 'email@gmail.com'
+      const name = 'Trần Văn A'
+      this.$store.commit('setLogin', email, name)
     }
   }
 }

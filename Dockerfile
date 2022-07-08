@@ -1,0 +1,9 @@
+FROM node:14.17.3
+ENV APP_ROOT /src
+ENV PORT 3000
+RUN mkdir ${APP_ROOT}
+WORKDIR ${APP_ROOT}
+ADD . ${APP_ROOT}
+RUN yarn install
+RUN yarn build
+ENV HOST 0.0.0.0

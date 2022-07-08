@@ -2,6 +2,9 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  server: {
+    port: process.env.PORT,
+  },
   head: {
     titleTemplate: '%s - nuxtjs-demo',
     title: 'nuxtjs-demo',
@@ -63,5 +66,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  env: {
+    API_URL: process.env.API_URL || ''
   }
 }
